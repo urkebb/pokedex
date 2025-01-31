@@ -1,0 +1,31 @@
+@import 'variables';
+
+:host {
+  $width: var(--width);
+  $height: var(--height);
+
+  ::ng-deep {
+    svg {
+      width: $width;
+      height: $height;
+    }
+  }
+
+  &.primary {
+  ::ng-deep {
+      svg {
+        path {
+          fill: $dark-blue;
+        }
+      }
+    }
+  }
+
+  &.secondary {
+    ::ng-deep {
+        svg path {
+          fill: $yellow;
+        }
+      }
+    }
+}
