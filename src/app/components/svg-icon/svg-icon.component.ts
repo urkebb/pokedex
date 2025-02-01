@@ -36,16 +36,6 @@ export class SvgIconComponent implements OnChanges {
     return this.theme === 'secondary';
   }
 
-  @HostBinding('style.--width')
-  get getWith(): string {
-    return this.width ?? "";
-  }
-
-  @HostBinding('style.--height')
-  get getHeight(): string {
-    return this.height ?? "";
-  }
-
   constructor(
     private readonly httpClient: HttpClient,
     private readonly sanitizer: DomSanitizer

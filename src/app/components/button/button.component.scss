@@ -1,0 +1,20 @@
+@import "variables";
+
+:host {
+	outline: none;
+	border: none;
+	border-radius: 8px;
+	font-weight: bold;
+	cursor: pointer;
+	width: 100%;
+	padding: 0.5rem 1rem;
+	&[theme="primary"] {
+		background-color: $blue;
+		color: $dark-blue;
+	}
+
+  &[theme="secondary"] {
+		background-color: $yellow;
+		color: $dark-blue;
+	}
+}

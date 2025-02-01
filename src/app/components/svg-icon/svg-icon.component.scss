@@ -1,13 +1,12 @@
 @import 'variables';
 
 :host {
-  $width: var(--width);
-  $height: var(--height);
-
-  ::ng-deep {
-    svg {
-      width: $width;
-      height: $height;
+  .svg-icon-container {
+    ::ng-deep {
+      svg {
+        width: var(--width);
+        height: var(--height);
+      }
     }
   }
 

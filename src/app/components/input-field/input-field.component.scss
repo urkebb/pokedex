@@ -1,0 +1,42 @@
+@import 'variables';
+
+.input-container {
+  width: 100%;
+  position: relative;
+  border-radius: 12px;
+  box-shadow: 0 11px 20px 0 rgba(145, 145, 145, 0.16);
+  svg-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10px;
+  }
+  input {
+    border: none;
+    width: 100%;
+    border-radius: 12px;
+    padding: 0.75rem 10rem 0.75rem 2.25rem;
+    color: $dark-blue;
+
+    &::placeholder {
+      color: $dark-blue;
+    }
+
+    &:focus-visible {
+      outline: 1px solid $dark-blue;
+
+      &::placeholder {
+        color: $dark-blue;
+        opacity: 0.6;
+      }
+
+    }
+}
+button {
+  position: absolute;
+  right: 5px;
+  width: 8rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+}
