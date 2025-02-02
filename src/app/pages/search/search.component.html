@@ -2,3 +2,15 @@
 <svg-icon [name]="'pokedex-logo'"></svg-icon>
 
 <input-field></input-field>
+
+
+@if(isLoading()) {
+  <h1>LOADING...</h1>
+} @else {
+  <ng-container [ngTemplateOutlet]="content"></ng-container>
+}
+
+
+<ng-template #content>
+  <!-- {{ pokemonList() | json }} -->
+</ng-template>
