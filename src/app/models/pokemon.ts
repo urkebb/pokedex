@@ -11,8 +11,19 @@ export interface PokemonListItem {
 }
 
 export interface Pokemon {
+  id: number;
   types: PokemonType[];
   name: string;
+  sprites: {
+    front_default: string;
+    back_default: string;
+    other: {
+      dream_world: {
+        front_default: string;
+        back_default: string
+      };
+    }
+  }
 }
 
 export interface PokemonType {

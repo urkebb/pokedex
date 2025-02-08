@@ -1,16 +1,14 @@
 
-<svg-icon [name]="'pokedex-logo'"></svg-icon>
+<div class="search-container">
 
-<input-field></input-field>
+  <svg-icon theme="primary" [name]="'pokedex-logo'"></svg-icon>
 
+  <input-field [class]="'input-field'"></input-field>
 
-@if(isLoading()) {
-  <h1>LOADING...</h1>
-} @else {
-  <ng-container [ngTemplateOutlet]="content"></ng-container>
-}
+  <dropdown class="dropdown"></dropdown>
 
+  <div class="content">
+    <pokemon-list [pokemonList]="pokemonList()" />
+  </div>
 
-<ng-template #content>
-  <!-- {{ pokemonList() | json }} -->
-</ng-template>
+</div>

@@ -1,9 +1,13 @@
 @import 'variables';
 
-
 .main-layout {
   min-height: 100vh;
   overflow: hidden;
   padding: 1rem 1.5rem;
   background-color: $light-gray;
+
+  .content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
 }

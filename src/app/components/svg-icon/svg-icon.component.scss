@@ -1,30 +1,50 @@
-@import 'variables';
+@import "variables";
 
 :host {
-  .svg-icon-container {
-    ::ng-deep {
-      svg {
-        width: var(--width);
-        height: var(--height);
-      }
-    }
-  }
+	.svg-icon-container {
+		::ng-deep {
+			svg {
+				width: var(--width);
+				height: var(--height);
+
+				path {
+					fill: $dark-gray;
+				}
+			}
+		}
+	}
 
   &.primary {
-  ::ng-deep {
-      svg {
-        path {
-          fill: $dark-blue;
-        }
-      }
-    }
-  }
+		.svg-icon-container {
+			::ng-deep {
+				svg {
+					path {
+						fill: $dark-blue;
+					}
+				}
+			}
+		}
+	}
 
-  &.secondary {
-    ::ng-deep {
-        svg path {
-          fill: $yellow;
-        }
-      }
-    }
+	&.secondary {
+		.svg-icon-container {
+			::ng-deep {
+				svg path {
+					fill: $yellow;
+				}
+			}
+		}
+	}
+
+  &.gray {
+		.svg-icon-container {
+			::ng-deep {
+				svg {
+					path {
+						fill: $dark-blue;
+					}
+				}
+			}
+		}
+	}
 }

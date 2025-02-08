@@ -5,10 +5,24 @@
 }
 
 $dark-blue: var(--dark-blue);
+$dark-gray: #212121;
 $yellow: var(--yellow);
 $light-gray: var(--light-gray);
 $blue: #C9D2EA;
 $yellow: #FFCE31;
-
+$fire-background: #EB6C6C;
+$fire-tag: #FF6464;
+$grass-background: #1EBA11;
+$grass-tag: #80E177;
+$water-background: #009ACB;
+$water-tag: #9FF3FF;
+$flying-background: linear-gradiend(to bottom, #CBE9FF, #2299EE);
+$flying-tag: linear-gradient(to bottom, #CBE9FF , #2299EE);
+$poison-background: #7E00CB;
+$poison-tag: #D89CFD;
+$electric-background: #B7B117;
+$normal-background: #B6B6B6;
+$normal-tag: #CBCBCB;
+$bug-tag: #C9FF84;
 
 $transition-duration: 0.2s;

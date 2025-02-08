@@ -1,0 +1,113 @@
+@import 'variables';
+
+:host {
+  &[type='grass'] {
+    .pokemon-card {
+      background-color: $grass-background;
+    }
+  }
+  &[type='fire'] {
+    .pokemon-card {
+      background-color: $fire-background;
+    }
+  }
+  &[type='flying'] {
+    .pokemon-card {
+      background-color: $flying-background;
+    }
+  }
+  &[type='water'] {
+    .pokemon-card {
+      background-color: $water-background;
+    }
+  }
+  &[type='poison'] {
+    .pokemon-card {
+      background-color: $water-background;
+    }
+  }
+  &[type='electric'] {
+    .pokemon-card {
+      background-color: $electric-background;
+    }
+  }
+}
+
+.pokemon-card {
+  background-color: $normal-background;
+  border-radius: 12px;
+  padding: 1rem;
+
+  .sprite {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: -3rem;
+
+    img {
+      width: 5rem;
+      height: 5rem;
+    }
+  }
+
+  .name {
+    color: white;
+    margin-bottom: 0.5rem;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .number {
+    color: white;
+    opacity: 0.8;
+    font-size: 14px;
+  }
+
+  .name, .number {
+    position: relative;
+    top: -1rem;
+  }
+
+  .types {
+    display: flex;
+    gap: 0.5rem;
+
+    svg-icon {
+      width: 16px;
+      height: 16px;
+    }
+    .type {
+      background-color: yellow;
+      border-radius: 12px;
+      padding: 0.25rem 0.5rem;
+      font-size: 14px;
+      color: $dark-gray;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+
+      &[type='grass'] {
+        background-color: $grass-tag;
+      }
+      &[type='fire'] {
+        background-color: $fire-tag;
+      }
+      &[type='bug'] {
+        background-color: $bug-tag;
+      }
+      &[type='poison'] {
+        background-color: $poison-tag;
+      }
+      &[type='flying'] {
+        background-image: $flying-tag;
+      }
+      &[type='normal'] {
+        background: $normal-tag;
+      }
+      &[type='water'] {
+        background: $water-tag;
+      }
+    }
+  }
+}

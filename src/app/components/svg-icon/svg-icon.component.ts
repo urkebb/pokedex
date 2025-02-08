@@ -18,13 +18,16 @@ export class SvgIconComponent implements OnChanges {
   public name?: string;
 
   @Input()
-  theme: 'primary' | 'secondary' | 'none' = 'none';
+  theme: 'primary' | 'secondary' | 'gray' = 'gray';
 
   @Input()
   width?: string;
 
   @Input()
   height?: string;
+
+  @Input()
+  fill?: string;
 
   @HostBinding('class.primary')
   get isPrimaryTheme(): boolean {
@@ -34,6 +37,11 @@ export class SvgIconComponent implements OnChanges {
   @HostBinding('class.secondary')
   get isSecondaryTheme(): boolean {
     return this.theme === 'secondary';
+  }
+
+  @HostBinding('style.--fill')
+  get getFill(): string | undefined {
+    return this.fill;
   }
 
   constructor(

@@ -7,10 +7,12 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Pokemon } from '../../models/pokemon';
 import { catchError, finalize, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { PokemonListComponent } from '../../components/pokemon/pokemon-list/pokemon-list.component';
+import { DropdownComponent } from '../../components/dropdown/dropdown.component';
 
 @Component({
   selector: 'app-search',
-  imports: [CommonModule, SvgIconComponent, InputFieldComponent, ButtonComponent],
+  imports: [CommonModule, SvgIconComponent, InputFieldComponent, ButtonComponent, PokemonListComponent, DropdownComponent],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
