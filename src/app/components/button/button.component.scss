@@ -17,4 +17,10 @@
 		background-color: $yellow;
 		color: $dark-blue;
 	}
+
+  &[theme="outlined"] {
+		background-color: white;
+		color: $dark-blue;
+    border: 1px solid $dark-blue;
+	}
 }

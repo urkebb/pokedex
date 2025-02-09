@@ -1,8 +1,43 @@
+@import 'variables';
+
+$padding: 25px 18px;
+
 .input-field {
   margin-bottom: 2rem;
   margin-top: 2rem;
 }
 
-.dropdown {
+.filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 4rem;
+
+  .filter {
+    padding: 0.5rem 1rem;
+    border: 2px solid $dark-gray;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+}
+
+.sidebar-header {
+  border-bottom: 1px solid black;
+  padding: $padding;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-content {
+  padding: $padding;
+}
+
+.sidebar-footer {
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 18px;
+  padding: $padding;
 }

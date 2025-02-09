@@ -5,10 +5,55 @@
 
   <input-field [class]="'input-field'"></input-field>
 
-  <dropdown class="dropdown"></dropdown>
+  <div class="filters">
+    <dropdown class="dropdown"></dropdown>
+    <div (click)="openFilters()" class="filter">filters</div>
+  </div>
 
   <div class="content">
     <pokemon-list [pokemonList]="pokemonList()" />
   </div>
 
 </div>
+
+
+<ng-template #sidebarContent>
+  <div class="sidebar-header">
+    <h2>Filters</h2>
+    <img src="assets/images/close.svg" alt="">
+  </div>
+
+  <div class="sidebar-content">
+    <h3>Type</h3>
+    <div class="type-filters">
+      <div class="type-filter">
+        <div class="checkbox"></div>
+        <h3>Normal</h3>
+      </div>
+      <div class="type-filter">
+        <div class="checkbox"></div>
+        <h3>Fighting</h3>
+      </div>
+      <div class="typs-filter">
+        <div class="checkbox"></div>
+        <h3>Fighting</h3>
+      </div>
+      <div class="typs-filter">
+        <div class="checkbox"></div>
+        <h3>Fighting</h3>
+      </div>
+    </div>
+
+    <h3>Height</h3>
+    <div class="height-filters">
+      <div class="height-filter">icon</div>
+      <div class="height-filter">icon</div>
+      <div class="height-filter">icon</div>
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <button [theme]="'outlined'">Reset filters</button>
+    <button>Apply filters</button>
+  </div>
+</ng-template>

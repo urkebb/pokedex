@@ -1,0 +1,3 @@
+@function hex-to-rgb($color, $opacity: 1) {
+  @return rgba($color, $opacity);
+}
