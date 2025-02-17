@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, HostBinding, Input, input, output, TemplateRef } from '@angular/core';
+import { AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Component, ContentChildren, HostBinding, Input, output, QueryList, TemplateRef, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { ButtonComponent } from '../button/button.component';
 import { animate, style, transition, trigger } from '@angular/animations';
 
@@ -40,13 +40,19 @@ import { animate, style, transition, trigger } from '@angular/animations';
 })
 export class SidebarComponent implements AfterViewInit {
   @HostBinding('@animation') animationState = true;
-  close = output();
   @Input() content!: TemplateRef<unknown>;
+  close = output();
+
+  constructor() {
+
+   }
 
   ngAfterViewInit(): void {
-    console.log(this.content, "CONTENT")
+    // if (this.component) {
+    //   this.container.clear();
+    //   this.container.createComponent(this.component);
+    // }
   }
-
 
   handleClose() {
     this.close.emit();

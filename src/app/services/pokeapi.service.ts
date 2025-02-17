@@ -23,8 +23,7 @@ export class PokeapiService {
         const detailRequests = pokemonList.results.map(pokemon => this.http.get<Pokemon>(pokemon.url));
 
         return forkJoin(detailRequests);
-      }),
-      delay(3000)
+      })
     )
   }
 

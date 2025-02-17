@@ -33,3 +33,5 @@ export interface PokemonType {
     url: string;
   }
 }
+
+export type PokemonHeight = 'small' | 'medium' | 'large';

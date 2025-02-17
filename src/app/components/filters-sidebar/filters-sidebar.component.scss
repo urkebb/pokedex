@@ -1,0 +1,42 @@
+@import 'variables';
+
+$padding: 25px 18px;
+
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $padding;
+}
+
+.sidebar-content {
+  padding: $padding;
+
+  .type-filters {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .height-filters {
+    .height-filters-inner {
+      display: flex;
+      gap: 0.5rem;
+    }
+  }
+}
+
+.sidebar-footer {
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 18px;
+  padding: $padding;
+}

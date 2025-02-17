@@ -11,17 +11,27 @@ import { PokemonListComponent } from '../../components/pokemon/pokemon-list/poke
 import { DropdownComponent } from '../../components/dropdown/dropdown.component';
 import { Overlay } from '@angular/cdk/overlay';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
-import { CdkPortal, ComponentPortal, Portal, PortalModule } from '@angular/cdk/portal';
+import { CdkPortal, PortalModule } from '@angular/cdk/portal';
+import { SidebarTriggerDirective } from '../../directives/sidebar-trigger.directive';
+import { FiltersSidebarComponent } from '../../components/filters-sidebar/filters-sidebar.component';
+
+
+interface DropdownComponentWithProps {
+  component: typeof DropdownComponent;
+  inputs: Record<keyof DropdownComponent, DropdownComponent[keyof DropdownComponent]>;
+}
+
 
 @Component({
   selector: 'app-search',
-  imports: [CommonModule, SvgIconComponent, InputFieldComponent, ButtonComponent, PokemonListComponent, DropdownComponent, SidebarComponent, PortalModule],
+  imports: [CommonModule, SvgIconComponent, InputFieldComponent, ButtonComponent, PokemonListComponent, DropdownComponent, SidebarComponent, PortalModule, SidebarTriggerDirective, FiltersSidebarComponent],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [SvgIconComponent]
 })
 
-export class SearchComponent implements AfterViewInit {
+export class SearchComponent  {
   @ViewChild(CdkPortal) portal !: CdkPortal;
   @ViewChild('sidebarContent') sidebarContent!: TemplateRef<unknown>;
   private readonly pokeapiService = inject(PokeapiService);
@@ -29,7 +39,6 @@ export class SearchComponent implements AfterViewInit {
   public readonly isLoading = signal(true);
 
   public readonly pokemonList: Signal<Pokemon[]> = toSignal(this.pokeapiService.getPokemonList().pipe(
-    tap( result => console.log(result, 'result')),
     catchError(() => {
       return [];
     }),
@@ -38,25 +47,6 @@ export class SearchComponent implements AfterViewInit {
     initialValue: []
   });
 
-  constructor(private readonly overlay: Overlay) {
+  constructor() {
   }
-
-  ngAfterViewInit(): void {
-    this.openFilters()
-  }
-
-  openFilters() {
-    const portal = new ComponentPortal(SidebarComponent);
-    const overlayRef = this.overlay.create({
-      hasBackdrop: true,
-      positionStrategy: this.overlay.position().global().right().right(),
-      width: '336px',
-      height: '100%'
-    });
-    const componentRef = overlayRef.attach(portal);
-    componentRef.instance.content = this.sidebarContent;
-    componentRef.instance.close.subscribe(() => overlayRef.detach())
-    overlayRef.backdropClick().subscribe(() => overlayRef.detach());
-  }
-
 }

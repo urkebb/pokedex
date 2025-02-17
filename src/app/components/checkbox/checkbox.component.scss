@@ -1,0 +1,27 @@
+@import 'variables';
+
+:host {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkbox {
+  width: var(--width)px;
+  height: var(--height)px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  img {
+    object-fit: contain;
+  }
+}

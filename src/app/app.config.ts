@@ -5,7 +5,13 @@ import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { IMAGE_LOADER, ImageLoaderConfig } from '@angular/common';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideClientHydration(withEventReplay()), provideHttpClient(), provideAnimations()]
+  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideClientHydration(withEventReplay()), provideHttpClient(), provideAnimations(),{
+    provide: IMAGE_LOADER,
+    useValue: (config: ImageLoaderConfig) => {
+      return `${config.src}`;
+    }
+  }]
 };

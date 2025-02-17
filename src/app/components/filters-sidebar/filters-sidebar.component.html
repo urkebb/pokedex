@@ -1,0 +1,42 @@
+<div class="sidebar-header">
+  <h2>Filters</h2>
+  <img (click)="onClose()" src="assets/images/close.svg" alt="">
+</div>
+
+<div class="sidebar-content">
+  <div class="type-filters">
+    @for (checkbox of checkboxItems; track $index) {
+      <div class="type-filter">
+        <checkbox [state]="{
+          isChecked: checkbox.isChecked,
+          label: checkbox.label,
+          value: checkbox.value,
+          width: checkbox.width,
+          height: checkbox.height
+        }" [labelTemplate]="label" (checked)="onCheckboxClick($index)"></checkbox>
+        <ng-template #label>
+          <p>{{checkbox.label}}</p>
+        </ng-template>
+      </div>
+    }
+  </div>
+
+  <div class="height-filters">
+    <h3>Height</h3>
+    <div class="height-filters-inner">
+      @for(pokemonHeight of heightFilters; track $index) {
+        <div class="height-filter">
+          <height-filter (clicked)="onHeightFilterClick($index)" [state]="{
+            isSelected: pokemonHeight.isSelected,
+            height: pokemonHeight.height
+          }"></height-filter>
+        </div>
+      }
+    </div>
+  </div>
+</div>
+
+<div class="sidebar-footer">
+  <button [theme]="'outlined'">Reset filters</button>
+  <button>Apply filters</button>
+</div>

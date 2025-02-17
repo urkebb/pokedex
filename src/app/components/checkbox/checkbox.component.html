@@ -1,0 +1,9 @@
+<div (click)="onClick()" class="checkbox">
+  <div>
+    <img [@enterAnimation] *ngIf="state().isChecked" priority ngSrc="assets/images/check-box.svg" [width]="width()" [height]="height()">
+
+    <img [@enterAnimation] *ngIf="!state().isChecked" priority ngSrc="assets/images/empty-checkbox.svg" [width]="width()" [height]="height()">
+  </div>
+
+</div>
+<ng-container *ngTemplateOutlet="labelTemplate()"></ng-container>
