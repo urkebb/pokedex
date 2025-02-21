@@ -3,18 +3,21 @@ import { ChangeDetectionStrategy, Component, input, linkedSignal, OnChanges, sig
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import {OverlayModule} from '@angular/cdk/overlay';
 import { Option } from '../../models/dropdown';
+import { DROPDOWN_ANIMATIONS } from './dropdown.animations';
 
 @Component({
   selector: 'dropdown',
   imports: [CommonModule, SvgIconComponent, OverlayModule],
   templateUrl: './dropdown.component.html',
   styleUrl: './dropdown.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: DROPDOWN_ANIMATIONS
 })
 export class DropdownComponent {
-  isOpen = signal(false);
   items = input<Option[]>([]);
   selectedItem = input<Option>(this.items()[0]);
+
+  isOpen = signal(false);
 
   options = signal<Option[]>([
     { label: 'Lowest Number First', value: 'option1' },

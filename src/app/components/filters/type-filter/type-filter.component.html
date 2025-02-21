@@ -1,0 +1,7 @@
+
+<checkbox [state]="{
+  isChecked: isChecked(),
+  value: value()
+}" (checked)="onChecked()"></checkbox>
+
+<ng-content select=[label]></ng-content>

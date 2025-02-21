@@ -16,12 +16,6 @@ import { SidebarTriggerDirective } from '../../directives/sidebar-trigger.direct
 import { FiltersSidebarComponent } from '../../components/filters-sidebar/filters-sidebar.component';
 
 
-interface DropdownComponentWithProps {
-  component: typeof DropdownComponent;
-  inputs: Record<keyof DropdownComponent, DropdownComponent[keyof DropdownComponent]>;
-}
-
-
 @Component({
   selector: 'app-search',
   imports: [CommonModule, SvgIconComponent, InputFieldComponent, ButtonComponent, PokemonListComponent, DropdownComponent, SidebarComponent, PortalModule, SidebarTriggerDirective, FiltersSidebarComponent],

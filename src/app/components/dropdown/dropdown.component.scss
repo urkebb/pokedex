@@ -20,14 +20,14 @@
 		cursor: pointer;
 	}
 
-	svg-icon {
+	.arrow {
 		width: 16px;
 		height: 16px;
     transition: all $transition-duration ease-in-out;
 	}
 
 	&.opened {
-		svg-icon {
+		.arrow {
 			transform: rotate(-180deg);
 		}
 	}

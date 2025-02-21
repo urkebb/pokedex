@@ -1,12 +1,12 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, HostListener, input, output, TemplateRef,  } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 
-export class CheckboxState {
-  constructor(public isChecked: boolean, public label: string, public value: string, public width?: number, public height?: number) {
-    if (!width) this.width = 15;
-    if (!height) this.height = 15;
-  }
+export interface CheckboxState {
+  isChecked: boolean;
+  value: string;
+  width?: number;
+  height?: number;
 }
 
 @Component({
@@ -27,11 +27,10 @@ export class CheckboxState {
 })
 export class CheckboxComponent {
   state = input.required<CheckboxState>();
-  labelTemplate = input.required<TemplateRef<unknown>>();
   checked = output<void>();
 
-  height = computed(() => this.state().height);
-  width = computed(() => this.state().width);
+  height = computed(() => this.state().height || 15);
+  width = computed(() => this.state().width || 15);
 
   constructor() { }
 

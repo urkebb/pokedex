@@ -5,16 +5,24 @@ import { CheckboxComponent, CheckboxState } from '../checkbox/checkbox.component
 import { POKEMON_HEIGHTS, POKEMON_TYPES } from '../pokemon/pokemon.const';
 import { firstLetterToUppercase } from '../../functions/string.functions';
 import { HeightFilterComponent, HeightFilterState } from '../filters/height-filter/height-filter.component';
+import { TypeFilterComponent } from '../filters/type-filter/type-filter.component';
+import { TypeFilter } from '../filters/type-filter/type-filter.model';
 
 @Component({
   selector: 'filters-sidebar',
-  imports: [ButtonComponent, CheckboxComponent, HeightFilterComponent],
+  imports: [ButtonComponent, CheckboxComponent, HeightFilterComponent, TypeFilterComponent],
   templateUrl: './filters-sidebar.component.html',
   styleUrl: './filters-sidebar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FiltersSidebarComponent {
-  checkboxItems: CheckboxState[] = POKEMON_TYPES.map(type => new CheckboxState(false, firstLetterToUppercase(type), type));
+  typeFilters: TypeFilter[] = POKEMON_TYPES.map((type, index) => ({
+    checkboxState: {
+      isChecked: false,
+      value: type
+    },
+    label: firstLetterToUppercase(type)
+  }));
 
   heightFilters: HeightFilterState[] = POKEMON_HEIGHTS.map((height, index) => {
     if (index === 0) {
@@ -30,8 +38,10 @@ export class FiltersSidebarComponent {
     this.sidebarService.setState({ open: false });
   }
 
-  onCheckboxClick(index: number) {
-    this.checkboxItems[index].isChecked = !this.checkboxItems[index].isChecked;
+  onTypeFilterClick(index: number) {
+    const checkbox = this.typeFilters[index].checkboxState
+
+    checkbox.isChecked = !checkbox.isChecked;
   }
 
   onHeightFilterClick(index: number) {

@@ -5,18 +5,15 @@
 
 <div class="sidebar-content">
   <div class="type-filters">
-    @for (checkbox of checkboxItems; track $index) {
+    @for (type of typeFilters; track $index) {
       <div class="type-filter">
-        <checkbox [state]="{
-          isChecked: checkbox.isChecked,
-          label: checkbox.label,
-          value: checkbox.value,
-          width: checkbox.width,
-          height: checkbox.height
-        }" [labelTemplate]="label" (checked)="onCheckboxClick($index)"></checkbox>
-        <ng-template #label>
-          <p>{{checkbox.label}}</p>
-        </ng-template>
+        <type-filter
+        [isChecked]="type.checkboxState.isChecked"
+        [value]="type.checkboxState.value"
+        (checked)="onTypeFilterClick($index)">
+          <p label>{{type.label}}</p>
+        </type-filter>
+
       </div>
     }
   </div>
