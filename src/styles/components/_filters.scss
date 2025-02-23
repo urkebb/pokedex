@@ -1,0 +1,22 @@
+@import 'variables';
+@import 'functions';
+
+height-filter, weight-filter {
+  &.selected {
+    .container {
+      background-color: $blue;
+    }
+  }
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: hex-to-rgb($color: $dark-gray, $opacity: 0.16);
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+
+  transition: all 0.3s ease-in-out;
+}

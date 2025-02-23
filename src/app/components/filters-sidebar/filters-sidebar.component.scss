@@ -1,4 +1,5 @@
 @import 'variables';
+@import 'functions';
 
 $padding: 25px 18px;
 
@@ -14,20 +15,33 @@ $padding: 25px 18px;
   justify-content: space-between;
   align-items: center;
   padding: $padding;
+
+  .close {
+    cursor: pointer;
+  }
 }
 
 .sidebar-content {
   padding: $padding;
 
   .type-filters {
+    margin-top: 1.5rem;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
   }
 
-  .height-filters {
-    .height-filters-inner {
+  .height-filters, .weight-filters {
+    margin-top: 1.5rem;
+    &-title {
+      font-weight: normal;
+      color: hex-to-rgb($color: $dark-gray, $opacity: 0.6);
+    }
+    &-inner {
+      margin-top: 0.5rem;
       display: flex;
-      gap: 0.5rem;
+      flex-direction: row;
+      gap: 1rem;
     }
   }
 }

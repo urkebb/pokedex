@@ -1,0 +1,9 @@
+<div (click)="onClick()" class="container">
+  @if(state().weight === 'small') {
+    <img src="assets/images/small-weight.svg" alt="">
+  } @else if(state().weight === 'medium') {
+    <img src="assets/images/medium-weight.svg" alt="">
+  } @else if(state().weight === 'large') {
+    <img src="assets/images/large-weight.svg" alt="">
+  }
+</div>

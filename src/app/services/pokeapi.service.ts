@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { delay, forkJoin, Observable, switchMap } from 'rxjs';
+import { forkJoin, Observable, switchMap } from 'rxjs';
 import { Pokemon, PokemonList } from '../models/pokemon';
 import { HttpClient } from '@angular/common/http';
 

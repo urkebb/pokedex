@@ -1,39 +1,45 @@
 <div class="sidebar-header">
   <h2>Filters</h2>
-  <img (click)="onClose()" src="assets/images/close.svg" alt="">
+  <img class="close" (click)="onClose()" src="assets/images/close.svg" alt="">
 </div>
-
 <div class="sidebar-content">
   <div class="type-filters">
-    @for (type of typeFilters; track $index) {
-      <div class="type-filter">
-        <type-filter
-        [isChecked]="type.checkboxState.isChecked"
-        [value]="type.checkboxState.value"
-        (checked)="onTypeFilterClick($index)">
-          <p label>{{type.label}}</p>
-        </type-filter>
-
-      </div>
+    @for (type of typeFilters$ | async; track $index) {
+      <type-filter
+      [isChecked]="type.checkboxState.isChecked"
+      [value]="type.checkboxState.value"
+      (checked)="onTypeFilterClick($index)">
+        <p label>{{type.label}}</p>
+      </type-filter>
     }
   </div>
 
   <div class="height-filters">
-    <h3>Height</h3>
+    <h4 class="height-filters-title">Height</h4>
     <div class="height-filters-inner">
-      @for(pokemonHeight of heightFilters; track $index) {
-        <div class="height-filter">
-          <height-filter (clicked)="onHeightFilterClick($index)" [state]="{
-            isSelected: pokemonHeight.isSelected,
-            height: pokemonHeight.height
-          }"></height-filter>
-        </div>
+      @for(pokemonHeight of heightFilters$ | async; track $index) {
+        <height-filter (clicked)="onHeightFilterClick($index)"
+          [isSelected]="pokemonHeight.isSelected"
+          [height]="pokemonHeight.height">
+        ></height-filter>
+      }
+    </div>
+  </div>
+
+  <div class="weight-filters">
+    <h4 class="weight-filters-title">Weight</h4>
+    <div class="weight-filters-inner">
+      @for(pokemonWeight of weightFilters$ | async; track $index) {
+        <weight-filter (clicked)="onWeightFilterClick($index)" [state]="{
+          isSelected: pokemonWeight.isSelected,
+          weight: pokemonWeight.weight
+        }"></weight-filter>
       }
     </div>
   </div>
 </div>
 
 <div class="sidebar-footer">
-  <button [theme]="'outlined'">Reset filters</button>
-  <button>Apply filters</button>
+  <button (click)="onResetFilters()" [theme]="'outlined'">Reset filters</button>
+  <button (click)="onApplyFilters()">Apply filters</button>
 </div>

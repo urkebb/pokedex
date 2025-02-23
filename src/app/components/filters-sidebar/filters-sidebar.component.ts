@@ -1,56 +1,58 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ButtonComponent } from '../button/button.component';
 import { SidebarService } from '../../services/sidebar.service';
 import { CheckboxComponent, CheckboxState } from '../checkbox/checkbox.component';
-import { POKEMON_HEIGHTS, POKEMON_TYPES } from '../pokemon/pokemon.const';
+import { POKEMON_HEIGHTS, POKEMON_TYPES, POKEMON_WEIGHTS } from '../pokemon/pokemon.const';
 import { firstLetterToUppercase } from '../../functions/string.functions';
-import { HeightFilterComponent, HeightFilterState } from '../filters/height-filter/height-filter.component';
+import { HeightFilterComponent } from '../filters/height-filter/height-filter.component';
 import { TypeFilterComponent } from '../filters/type-filter/type-filter.component';
 import { TypeFilter } from '../filters/type-filter/type-filter.model';
+import { HeightFilterState } from '../filters/height-filter/heigh-filter.model';
+import { WeightFilterState } from '../filters/weight-filter/weight-filter.model';
+import { WeightFilterComponent } from '../filters/weight-filter/weight-filter.component';
+import { FiltersService } from '../filters/filters.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'filters-sidebar',
-  imports: [ButtonComponent, CheckboxComponent, HeightFilterComponent, TypeFilterComponent],
+  imports: [ButtonComponent, CheckboxComponent, HeightFilterComponent, TypeFilterComponent, WeightFilterComponent, CommonModule],
   templateUrl: './filters-sidebar.component.html',
   styleUrl: './filters-sidebar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FiltersSidebarComponent {
-  typeFilters: TypeFilter[] = POKEMON_TYPES.map((type, index) => ({
-    checkboxState: {
-      isChecked: false,
-      value: type
-    },
-    label: firstLetterToUppercase(type)
-  }));
 
-  heightFilters: HeightFilterState[] = POKEMON_HEIGHTS.map((height, index) => {
-    if (index === 0) {
-      return { height, isSelected: true };
-    }
+  private readonly filtersService = inject(FiltersService);
 
-    return { height, isSelected: false };
-  })
+  public readonly typeFilters$ = this.filtersService.typeFilters$;
+  public readonly heightFilters$ = this.filtersService.heightFilters$;;
+  public readonly weightFilters$ = this.filtersService.weightFilters$;;
 
-  constructor(private readonly sidebarService: SidebarService) {}
+  constructor(
+    private readonly sidebarService: SidebarService
+  ) { }
 
   onClose() {
     this.sidebarService.setState({ open: false });
   }
 
   onTypeFilterClick(index: number) {
-    const checkbox = this.typeFilters[index].checkboxState
-
-    checkbox.isChecked = !checkbox.isChecked;
+    this.filtersService.onTypeFilterClick(index);
   }
 
   onHeightFilterClick(index: number) {
-    this.heightFilters.forEach(h => {
-      if (h.height !== this.heightFilters[index].height) {
-        h.isSelected = false;
-        return;
-      }
-      h.isSelected = !h.isSelected;
-    });
+    this.filtersService.onHeightFilterClick(index);
+  }
+
+  onWeightFilterClick(index: number) {
+    this.filtersService.onWeightFilterClick(index);
+  }
+
+  onApplyFilters() {
+    this.filtersService.onApplyFilters();
+  }
+
+  onResetFilters() {
+    this.filtersService.onResetFilters();
   }
 }

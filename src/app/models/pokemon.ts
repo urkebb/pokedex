@@ -12,6 +12,8 @@ export interface PokemonListItem {
 
 export interface Pokemon {
   id: number;
+  weight: number;
+  height: number;
   types: PokemonType[];
   name: string;
   sprites: {
@@ -35,3 +37,4 @@ export interface PokemonType {
 }
 
 export type PokemonHeight = 'small' | 'medium' | 'large';
+export type PokemonWeight = 'small' | 'medium' | 'large';
