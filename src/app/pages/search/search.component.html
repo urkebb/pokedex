@@ -6,7 +6,11 @@
   <input-field [class]="'input-field'"></input-field>
 
   <div class="filters">
-    <dropdown class="dropdown"></dropdown>
+    <dropdown
+    [options]="orderFilters()"
+    class="dropdown"
+    (optionChanged)="onItemCliked($event)"
+    ></dropdown>
     <div sidebarTrigger [content]="sidebarContent" class="filter">
       filters
     </div>

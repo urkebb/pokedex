@@ -1,4 +1,4 @@
-import { inject, Injectable, INJECTOR, signal } from '@angular/core';
+import { computed, inject, Injectable, INJECTOR, signal } from '@angular/core';
 import { TypeFilter } from './type-filter/type-filter.model';
 import { POKEMON_HEIGHTS, POKEMON_TYPES, POKEMON_WEIGHTS } from '../pokemon/pokemon.const';
 import { firstLetterToUppercase } from '../../functions/string.functions';
@@ -10,6 +10,7 @@ import { Pokemon, PokemonHeight, PokemonWeight } from '../../models/pokemon';
 import { PokemonFacade } from '../../facades/pokemon.facade';
 import { getPokemonTypes } from '../pokemon/pokemon.functions';
 import { SidebarService } from '../../services/sidebar.service';
+import { Option } from '../../models/dropdown';
 
 @Injectable({
   providedIn: 'root'
@@ -21,24 +22,26 @@ export class FiltersService {
 
   private pokemonList = this.pokemonFacade.pokemonList;
 
-  private typeFilters = signal<TypeFilter[]>([]);
-  private heightFilters = signal<HeightFilterState[]>([])
-  private weightFilters = signal<WeightFilterState[]>([]);
+  private _typeFilters = signal<TypeFilter[]>([]);
+  private _heightFilters = signal<HeightFilterState[]>([])
+  private _weightFilters = signal<WeightFilterState[]>([]);
+  private _orderFilters = signal<Option[]>([]);
 
-  readonly typeFilters$ = toObservable(this.typeFilters);
-  readonly heightFilters$ = toObservable(this.heightFilters);
-  readonly weightFilters$ = toObservable(this.weightFilters);
+  readonly typeFilters = computed(() => this._typeFilters())
+  readonly heightFilters = computed(() => this._heightFilters());
+  readonly weightFilters = computed(() => this._weightFilters());
+  readonly orderFilters = computed(() => this._orderFilters());
 
   private get activeTypeFilters(): string[] {
-    return this.typeFilters().filter(filter => filter.checkboxState.isChecked).map(filter => filter.checkboxState.value);
+    return this._typeFilters().filter(filter => filter.checkboxState.isChecked).map(filter => filter.checkboxState.value);
   }
 
   private get activeHeighFilter(): PokemonHeight | undefined {
-    return this.heightFilters().find(filter => filter.isSelected)?.height;
+    return this._heightFilters().find(filter => filter.isSelected)?.height;
   }
 
   private get activeWeightFilter(): PokemonWeight | undefined {
-    return this.weightFilters().find(filter => filter.isSelected)?.weight;
+    return this._weightFilters().find(filter => filter.isSelected)?.weight;
   }
 
   constructor() {
@@ -46,7 +49,7 @@ export class FiltersService {
   }
 
   onTypeFilterClick(index: number) {
-    this.typeFilters.update(filters => {
+    this._typeFilters.update(filters => {
       const checkbox = filters[index].checkboxState
       checkbox.isChecked = !checkbox.isChecked;
       return filters;
@@ -54,7 +57,7 @@ export class FiltersService {
   }
 
   onHeightFilterClick(index: number) {
-    this.heightFilters.update(filters => {
+    this._heightFilters.update(filters => {
       filters.forEach(h => {
         if (h.height !== filters[index].height) {
           h.isSelected = false;
@@ -68,7 +71,7 @@ export class FiltersService {
   }
 
   onWeightFilterClick(index: number) {
-    this.weightFilters.update(filters => {
+    this._weightFilters.update(filters => {
       filters.forEach(w => {
         if (w.weight !== filters[index].weight) {
           w.isSelected = false;
@@ -79,6 +82,11 @@ export class FiltersService {
 
       return filters;
     })
+  }
+
+  onOrderFilterClick(index: number) {
+    console.log('eve me')
+    this._orderFilters.update(filters => filters.map((filter, filterIndex) => filterIndex === index ? {...filter, isSelected: true} : {...filter, isSelected: false}))
   }
 
   onApplyFilters() {
@@ -111,17 +119,24 @@ export class FiltersService {
   }
 
   private setInitialState() {
-    this.heightFilters.set(POKEMON_HEIGHTS.map((height) => ({ height, isSelected: false })))
+    this._heightFilters.set(POKEMON_HEIGHTS.map((height) => ({ height, isSelected: false })))
 
-    this.weightFilters.set(POKEMON_WEIGHTS.map((weight) => ({ weight, isSelected: false })))
+    this._weightFilters.set(POKEMON_WEIGHTS.map((weight) => ({ weight, isSelected: false })))
 
-    this.typeFilters.set(POKEMON_TYPES.map((type) => ({
+    this._typeFilters.set(POKEMON_TYPES.map((type) => ({
       checkboxState: {
         isChecked: false,
         value: type
       },
       label: firstLetterToUppercase(type)
     })))
+
+    this._orderFilters.set([
+      { label: 'Lowest Number First', value: 'option1', isSelected: true },
+      { label: 'Highest Number First', value: 'option2', isSelected: false },
+      { label: 'Alphabetically (A-Z)', value: 'option3', isSelected: false },
+      { label: 'Alphabetically (Z-A)', value:  'option4', isSelected: false }
+    ])
   }
 
   private getPokemonHeightLimit(height: PokemonHeight): {

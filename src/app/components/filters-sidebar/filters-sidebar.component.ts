@@ -24,9 +24,9 @@ export class FiltersSidebarComponent {
 
   private readonly filtersService = inject(FiltersService);
 
-  public readonly typeFilters$ = this.filtersService.typeFilters$;
-  public readonly heightFilters$ = this.filtersService.heightFilters$;;
-  public readonly weightFilters$ = this.filtersService.weightFilters$;;
+  public readonly typeFilters = this.filtersService.typeFilters;
+  public readonly heightFilters = this.filtersService.heightFilters;
+  public readonly weightFilters = this.filtersService.weightFilters;
 
   constructor(
     private readonly sidebarService: SidebarService

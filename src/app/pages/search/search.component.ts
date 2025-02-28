@@ -15,6 +15,8 @@ import { CdkPortal, PortalModule } from '@angular/cdk/portal';
 import { SidebarTriggerDirective } from '../../directives/sidebar-trigger.directive';
 import { FiltersSidebarComponent } from '../../components/filters-sidebar/filters-sidebar.component';
 import { PokemonFacade } from '../../facades/pokemon.facade';
+import { FiltersService } from '../../components/filters/filters.service';
+import { Option } from '../../models/dropdown';
 
 
 @Component({
@@ -28,9 +30,15 @@ import { PokemonFacade } from '../../facades/pokemon.facade';
 
 export class SearchComponent  {
   private readonly pokemonFacade = inject(PokemonFacade);
+  private readonly filtersService = inject(FiltersService);
 
   pokemonList = this.pokemonFacade.filteredPokemonList;
+  orderFilters = this.filtersService.orderFilters;
 
   constructor() {
+  }
+
+  onItemCliked(index: number) {
+    this.filtersService.onOrderFilterClick(index);
   }
 }

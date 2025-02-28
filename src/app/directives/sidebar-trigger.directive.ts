@@ -1,26 +1,17 @@
 import { Overlay, OverlayRef } from "@angular/cdk/overlay";
 import { ComponentPortal, Portal } from "@angular/cdk/portal";
 import {
-	AfterContentInit,
-	Component,
-	ContentChild,
-	ContentChildren,
 	DestroyRef,
 	Directive,
-	ElementRef,
 	HostListener,
 	inject,
 	Input,
-	input,
-	QueryList,
 	signal,
-	Signal,
 	TemplateRef,
-	Type
 } from "@angular/core";
 import { SidebarComponent } from "../components/sidebar/sidebar.component";
 import { SidebarService } from "../services/sidebar.service";
-import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { filter, take } from "rxjs";
 
 @Directive({

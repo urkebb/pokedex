@@ -4,7 +4,7 @@
 </div>
 <div class="sidebar-content">
   <div class="type-filters">
-    @for (type of typeFilters$ | async; track $index) {
+    @for (type of typeFilters(); track $index) {
       <type-filter
       [isChecked]="type.checkboxState.isChecked"
       [value]="type.checkboxState.value"
@@ -17,7 +17,7 @@
   <div class="height-filters">
     <h4 class="height-filters-title">Height</h4>
     <div class="height-filters-inner">
-      @for(pokemonHeight of heightFilters$ | async; track $index) {
+      @for(pokemonHeight of heightFilters(); track $index) {
         <height-filter (clicked)="onHeightFilterClick($index)"
           [isSelected]="pokemonHeight.isSelected"
           [height]="pokemonHeight.height">
@@ -29,7 +29,7 @@
   <div class="weight-filters">
     <h4 class="weight-filters-title">Weight</h4>
     <div class="weight-filters-inner">
-      @for(pokemonWeight of weightFilters$ | async; track $index) {
+      @for(pokemonWeight of weightFilters(); track $index) {
         <weight-filter (clicked)="onWeightFilterClick($index)" [state]="{
           isSelected: pokemonWeight.isSelected,
           weight: pokemonWeight.weight
