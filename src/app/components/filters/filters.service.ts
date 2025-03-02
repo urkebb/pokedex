@@ -4,13 +4,12 @@ import { POKEMON_HEIGHTS, POKEMON_TYPES, POKEMON_WEIGHTS } from '../pokemon/poke
 import { firstLetterToUppercase } from '../../functions/string.functions';
 import { HeightFilterState } from './height-filter/heigh-filter.model';
 import { WeightFilterState } from './weight-filter/weight-filter.model';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { filter } from 'rxjs';
 import { Pokemon, PokemonHeight, PokemonWeight } from '../../models/pokemon';
 import { PokemonFacade } from '../../facades/pokemon.facade';
 import { getPokemonTypes } from '../pokemon/pokemon.functions';
 import { SidebarService } from '../../services/sidebar.service';
 import { Option } from '../../models/dropdown';
+import { OrderFilter, OrderFilterValue } from './filter.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,12 +19,12 @@ export class FiltersService {
   private readonly pokemonFacade = inject(PokemonFacade);
   private readonly sidebarService = inject(SidebarService);
 
-  private pokemonList = this.pokemonFacade.pokemonList;
+  private pokemonList = this.pokemonFacade.filteredPokemonList;
 
   private _typeFilters = signal<TypeFilter[]>([]);
   private _heightFilters = signal<HeightFilterState[]>([])
   private _weightFilters = signal<WeightFilterState[]>([]);
-  private _orderFilters = signal<Option[]>([]);
+  private _orderFilters = signal<OrderFilter[]>([]);
 
   readonly typeFilters = computed(() => this._typeFilters())
   readonly heightFilters = computed(() => this._heightFilters());
@@ -85,14 +84,30 @@ export class FiltersService {
   }
 
   onOrderFilterClick(index: number) {
-    console.log('eve me')
     this._orderFilters.update(filters => filters.map((filter, filterIndex) => filterIndex === index ? {...filter, isSelected: true} : {...filter, isSelected: false}))
+
+      const mappingObj: Record<OrderFilterValue, () => Pokemon[]> = {
+        'lowestNumber': () => [...this.pokemonList()].sort((a, b) => a.id - b.id),
+        'highestNumber': () => [...this.pokemonList()].sort((a, b) => b.id - a.id),
+        'aToZ': () => [...this.pokemonList()].sort((a, b) => a.name.localeCompare(b.name)),
+        'zToA': () => [...this.pokemonList()].sort((a, b) => b.name.localeCompare(a.name))
+      }
+
+      const filterValue = this._orderFilters()[index].value;
+
+      const orderedList: Pokemon[] = mappingObj[filterValue]();
+
+      this.pokemonFacade.setFilteredPokemonList(orderedList);
   }
 
   onApplyFilters() {
-    let filteredList: Pokemon[] = this.pokemonList()?.filter(
-      pokemon => this.getFilterConditionByPokemon(pokemon)
-    ) || [];
+    if (!this.activeTypeFilters.length && !this.activeHeighFilter && !this.activeWeightFilter) {
+      this.pokemonFacade.resetPokemonList();
+      this.sidebarService.setState({ open: false });
+      return;
+    }
+
+    const filteredList = this.pokemonList().filter(pokemon => this.getFilterConditionByPokemon(pokemon));
 
     this.pokemonFacade.setFilteredPokemonList(filteredList);
     this.sidebarService.setState({ open: false });
@@ -132,10 +147,10 @@ export class FiltersService {
     })))
 
     this._orderFilters.set([
-      { label: 'Lowest Number First', value: 'option1', isSelected: true },
-      { label: 'Highest Number First', value: 'option2', isSelected: false },
-      { label: 'Alphabetically (A-Z)', value: 'option3', isSelected: false },
-      { label: 'Alphabetically (Z-A)', value:  'option4', isSelected: false }
+      { label: 'Lowest Number First', value: 'lowestNumber', isSelected: true },
+      { label: 'Highest Number First', value: 'highestNumber', isSelected: false },
+      { label: 'Alphabetically (A-Z)', value: 'aToZ', isSelected: false },
+      { label: 'Alphabetically (Z-A)', value: 'zToA', isSelected: false }
     ])
   }
 

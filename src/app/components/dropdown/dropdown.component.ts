@@ -25,10 +25,6 @@ export class DropdownComponent {
     this.isOpen.update(val => !val);
   }
 
-  // isSelected(option: Option): boolean {
-  //   return option?.value === this.selectedOption()?.value;
-  // }
-
   onOptionClick(index: number) {
     const activeOptionIdx = this.options().findIndex(option => option.isSelected);
     if (index === activeOptionIdx)

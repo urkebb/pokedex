@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, inject, signal, Signal, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, computed, inject, signal, Signal, TemplateRef, ViewChild } from '@angular/core';
 import { SvgIconComponent } from "../../components/svg-icon/svg-icon.component";
 import { InputFieldComponent } from "../../components/input-field/input-field.component";
 import { ButtonComponent } from '../../components/button/button.component';
@@ -38,7 +38,7 @@ export class SearchComponent  {
   constructor() {
   }
 
-  onItemCliked(index: number) {
+  onDropdownOptionClicked(index: number) {
     this.filtersService.onOrderFilterClick(index);
   }
 }
