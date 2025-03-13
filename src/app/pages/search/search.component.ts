@@ -12,11 +12,11 @@ import { DropdownComponent } from '../../components/dropdown/dropdown.component'
 import { Overlay } from '@angular/cdk/overlay';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { CdkPortal, PortalModule } from '@angular/cdk/portal';
-import { SidebarTriggerDirective } from '../../directives/sidebar-trigger.directive';
 import { FiltersSidebarComponent } from '../../components/filters-sidebar/filters-sidebar.component';
 import { PokemonFacade } from '../../facades/pokemon.facade';
 import { FiltersService } from '../../components/filters/filters.service';
 import { Option } from '../../models/dropdown';
+import { SidebarTriggerDirective } from '../../directives/sidebar/sidebar-trigger.directive';
 
 
 @Component({
@@ -35,10 +35,18 @@ export class SearchComponent  {
   pokemonList = this.pokemonFacade.filteredPokemonList;
   orderFilters = this.filtersService.orderFilters;
 
-  constructor() {
-  }
+  constructor() { }
 
   onDropdownOptionClicked(index: number) {
     this.filtersService.onOrderFilterClick(index);
+  }
+
+  onTextChange(text: string) {
+    console.log(text, 'TEXT')
+    this.filtersService.setSearchText(text);
+  }
+
+  onSubmit() {
+    this.filtersService.onApplyFilters();
   }
 }

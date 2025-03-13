@@ -5,21 +5,24 @@ import {
 	Directive,
 	HostListener,
 	inject,
+	InjectionToken,
+	Injector,
 	Input,
 	signal,
 	TemplateRef,
 } from "@angular/core";
-import { SidebarComponent } from "../components/sidebar/sidebar.component";
-import { SidebarService } from "../services/sidebar.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { filter, take } from "rxjs";
+import { filter } from "rxjs";
+import { SidebarComponent } from "../../components/sidebar/sidebar.component";
+import { SidebarService } from "../../services/sidebar.service";
+
 
 @Directive({
 	selector: "[sidebarTrigger]"
 })
 export class SidebarTriggerDirective {
 	@Input() content!: TemplateRef<unknown>;
-  private readonly destroyRef = inject(DestroyRef)
+  private readonly destroyRef = inject(DestroyRef);
   private readonly dimensions = signal({ width: '336px', height: '100%' });
 
 	private overlayRef!: OverlayRef;
@@ -35,17 +38,25 @@ export class SidebarTriggerDirective {
 		});
 	}
 
-	@HostListener("click", ["$event.target"])
-	onClick() {
-		this.portal = new ComponentPortal(SidebarComponent);
+	@HostListener("click", ["$event"])
+	onClick(event: MouseEvent) {
+    event.preventDefault()
+    const injector = Injector.create({
+      providers: [
+        { provide: 'SIDEBAR_CONTENT', useValue: this.content}
+      ]
+    });
+
+		this.portal = new ComponentPortal(SidebarComponent, null, injector);
 		this.overlayRef = this.overlay.create({
 			hasBackdrop: true,
 			positionStrategy: this.overlay.position().global().right().right(),
 			width: this.dimensions().width,
 			height: this.dimensions().height
 		});
-		const componentRef = this.overlayRef.attach(this.portal);
-		componentRef.instance.content = this.content;
+
+		this.overlayRef.attach(this.portal);
+
 		this.sidebarService.setState({ open: true });
 		this.overlayRef.backdropClick().pipe(
       takeUntilDestroyed(this.destroyRef)

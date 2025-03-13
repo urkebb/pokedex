@@ -1,14 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ButtonComponent } from '../button/button.component';
 import { SidebarService } from '../../services/sidebar.service';
-import { CheckboxComponent, CheckboxState } from '../checkbox/checkbox.component';
-import { POKEMON_HEIGHTS, POKEMON_TYPES, POKEMON_WEIGHTS } from '../pokemon/pokemon.const';
-import { firstLetterToUppercase } from '../../functions/string.functions';
+import { CheckboxComponent } from '../checkbox/checkbox.component';
 import { HeightFilterComponent } from '../filters/height-filter/height-filter.component';
 import { TypeFilterComponent } from '../filters/type-filter/type-filter.component';
-import { TypeFilter } from '../filters/type-filter/type-filter.model';
-import { HeightFilterState } from '../filters/height-filter/heigh-filter.model';
-import { WeightFilterState } from '../filters/weight-filter/weight-filter.model';
 import { WeightFilterComponent } from '../filters/weight-filter/weight-filter.component';
 import { FiltersService } from '../filters/filters.service';
 import { CommonModule } from '@angular/common';
@@ -50,9 +45,11 @@ export class FiltersSidebarComponent {
 
   onApplyFilters() {
     this.filtersService.onApplyFilters();
+    this.sidebarService.setState({ open: false });
   }
 
   onResetFilters() {
     this.filtersService.onResetFilters();
+    this.sidebarService.setState({ open: false });
   }
 }

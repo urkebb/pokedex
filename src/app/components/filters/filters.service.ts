@@ -6,7 +6,7 @@ import { HeightFilterState } from './height-filter/heigh-filter.model';
 import { WeightFilterState } from './weight-filter/weight-filter.model';
 import { Pokemon, PokemonHeight, PokemonWeight } from '../../models/pokemon';
 import { PokemonFacade } from '../../facades/pokemon.facade';
-import { getPokemonTypes } from '../pokemon/pokemon.functions';
+import { getPokemonHeightLimit, getPokemonTypes, getPokemonWeightLimit } from '../pokemon/pokemon.functions';
 import { SidebarService } from '../../services/sidebar.service';
 import { Option } from '../../models/dropdown';
 import { OrderFilter, OrderFilterValue } from './filter.model';
@@ -17,19 +17,21 @@ import { OrderFilter, OrderFilterValue } from './filter.model';
 export class FiltersService {
 
   private readonly pokemonFacade = inject(PokemonFacade);
-  private readonly sidebarService = inject(SidebarService);
 
-  private pokemonList = this.pokemonFacade.filteredPokemonList;
+  private filteredPokemonList = this.pokemonFacade.filteredPokemonList;
+  private pokemonList = this.pokemonFacade.pokemonList;
 
   private _typeFilters = signal<TypeFilter[]>([]);
-  private _heightFilters = signal<HeightFilterState[]>([])
+  private _heightFilters = signal<HeightFilterState[]>([]);
   private _weightFilters = signal<WeightFilterState[]>([]);
   private _orderFilters = signal<OrderFilter[]>([]);
+  private _searchText = signal<string>('');
 
   readonly typeFilters = computed(() => this._typeFilters())
   readonly heightFilters = computed(() => this._heightFilters());
   readonly weightFilters = computed(() => this._weightFilters());
   readonly orderFilters = computed(() => this._orderFilters());
+  readonly selectedOrderFilter = computed(() => this._orderFilters().find(filter => filter.isSelected) || this._orderFilters()[0]);
 
   private get activeTypeFilters(): string[] {
     return this._typeFilters().filter(filter => filter.checkboxState.isChecked).map(filter => filter.checkboxState.value);
@@ -86,48 +88,54 @@ export class FiltersService {
   onOrderFilterClick(index: number) {
     this._orderFilters.update(filters => filters.map((filter, filterIndex) => filterIndex === index ? {...filter, isSelected: true} : {...filter, isSelected: false}))
 
-      const mappingObj: Record<OrderFilterValue, () => Pokemon[]> = {
-        'lowestNumber': () => [...this.pokemonList()].sort((a, b) => a.id - b.id),
-        'highestNumber': () => [...this.pokemonList()].sort((a, b) => b.id - a.id),
-        'aToZ': () => [...this.pokemonList()].sort((a, b) => a.name.localeCompare(b.name)),
-        'zToA': () => [...this.pokemonList()].sort((a, b) => b.name.localeCompare(a.name))
-      }
-
-      const filterValue = this._orderFilters()[index].value;
-
-      const orderedList: Pokemon[] = mappingObj[filterValue]();
-
-      this.pokemonFacade.setFilteredPokemonList(orderedList);
+    this.onApplyFilters();
   }
 
   onApplyFilters() {
-    if (!this.activeTypeFilters.length && !this.activeHeighFilter && !this.activeWeightFilter) {
-      this.pokemonFacade.resetPokemonList();
-      this.sidebarService.setState({ open: false });
-      return;
-    }
+    let filteredList: Pokemon[] = this.getFilteredList(this.pokemonList());
 
-    const filteredList = this.pokemonList().filter(pokemon => this.getFilterConditionByPokemon(pokemon));
+    filteredList = this.getOrderedList(filteredList);
 
     this.pokemonFacade.setFilteredPokemonList(filteredList);
-    this.sidebarService.setState({ open: false });
   }
 
   onResetFilters() {
     this.setInitialState();
   }
 
-  private getFilterConditionByPokemon(pokemon: Pokemon): boolean {
-      const heightLimit = this.getPokemonHeightLimit(this.activeHeighFilter as PokemonHeight);
+  setSearchText(text: string) {
+    this._searchText.set(text);
+  }
 
-      const weightLimit = this.getPokemonWeightLimit(this.activeWeightFilter as PokemonWeight);
+  private getFilteredList(list: Pokemon[]): Pokemon[] {
+    return list.filter(pokemon => this.getFilterConditionByPokemon(pokemon));
+  }
+
+  private getOrderedList(list: Pokemon[]): Pokemon[] {
+    const mappingObj: Record<OrderFilterValue, () => Pokemon[]> = {
+      'lowestNumber': () => [...list].sort((a, b) => a.id - b.id),
+      'highestNumber': () => [...list].sort((a, b) => b.id - a.id),
+      'aToZ': () => [...list].sort((a, b) => a.name.localeCompare(b.name)),
+      'zToA': () => [...list].sort((a, b) => b.name.localeCompare(a.name))
+    }
+
+    return mappingObj[this.selectedOrderFilter().value]();
+  }
+
+  private getFilterConditionByPokemon(pokemon: Pokemon): boolean {
+      const heightLimit = getPokemonHeightLimit(this.activeHeighFilter as PokemonHeight);
+
+      const weightLimit = getPokemonWeightLimit(this.activeWeightFilter as PokemonWeight);
 
       const pokemonTypes = getPokemonTypes(pokemon);
+
+      // console.log(this._searchText(), 'brajko')
 
       const mappingObject = {
         'height': this.activeHeighFilter ? pokemon.height >= heightLimit.min && pokemon.height <= heightLimit.max : true,
         'weight': this.activeWeightFilter ? pokemon.weight >= weightLimit.min && pokemon.weight <= weightLimit.max : true,
-        'types': this.activeTypeFilters?.length ? this.activeTypeFilters.every(type => pokemonTypes.includes(type)) : true
+        'types': this.activeTypeFilters?.length ? this.activeTypeFilters.every(type => pokemonTypes.includes(type)) : true,
+        'search': this._searchText() ? pokemon.name.toLowerCase().includes(this._searchText().toLowerCase()) : true
       }
 
       return Object.values(mappingObject).every(value => value);
@@ -152,36 +160,7 @@ export class FiltersService {
       { label: 'Alphabetically (A-Z)', value: 'aToZ', isSelected: false },
       { label: 'Alphabetically (Z-A)', value: 'zToA', isSelected: false }
     ])
+
+    this._searchText.set('');
   }
-
-  private getPokemonHeightLimit(height: PokemonHeight): {
-    min: number;
-    max: number;
-  } {
-    if (height === 'small') {
-      return { min: 0, max: 10 };
-    }
-
-    if (height === 'medium') {
-      return { min: 10, max: 20 };
-    }
-
-    return { min: 20, max: Number.MAX_VALUE };
-  }
-
-  private getPokemonWeightLimit(weight: PokemonWeight): {
-    min: number;
-    max: number;
-  } {
-    if (weight === 'small') {
-      return { min: 0, max: 100 };
-    }
-
-    if (weight === 'medium') {
-      return { min: 100, max: 200 };
-    }
-
-    return { min: 200, max: Number.MAX_VALUE };
-  }
-
 }

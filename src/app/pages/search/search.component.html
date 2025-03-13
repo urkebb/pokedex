@@ -3,7 +3,7 @@
 
   <svg-icon theme="primary" [name]="'pokedex-logo'"></svg-icon>
 
-  <input-field [class]="'input-field'"></input-field>
+  <input-field (submit)="onSubmit()" (changed)="onTextChange($event)" [class]="'input-field'"></input-field>
 
   <div class="filters">
     <dropdown
