@@ -129,8 +129,6 @@ export class FiltersService {
 
       const pokemonTypes = getPokemonTypes(pokemon);
 
-      // console.log(this._searchText(), 'brajko')
-
       const mappingObject = {
         'height': this.activeHeighFilter ? pokemon.height >= heightLimit.min && pokemon.height <= heightLimit.max : true,
         'weight': this.activeWeightFilter ? pokemon.weight >= weightLimit.min && pokemon.weight <= weightLimit.max : true,

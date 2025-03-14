@@ -31,7 +31,6 @@ export class InputFieldComponent implements AfterViewInit {
     this.inputControl?.valueChanges?.pipe(
       takeUntilDestroyed(this.destroyRef)
     )?.subscribe((value) => {
-      console.log('value changed');
       this.changed.emit(value);
     });
   }
