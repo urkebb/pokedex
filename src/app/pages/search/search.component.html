@@ -12,12 +12,13 @@
     (optionChanged)="onDropdownOptionClicked($event)"
     ></dropdown>
     <div sidebarTrigger [content]="sidebarContent" class="filter">
-      filters
+      <img src="/assets/images/action-filter.svg" alt="">
+      Filters
     </div>
   </div>
 
   <div class="content">
-    <pokemon-list [pokemonList]="pokemonList()" />
+    <pokemon-list />
   </div>
 
 </div>

@@ -21,7 +21,7 @@ import { SidebarService } from "../../services/sidebar.service";
 	selector: "[sidebarTrigger]"
 })
 export class SidebarTriggerDirective {
-	@Input() content!: TemplateRef<unknown>;
+	@Input({required: true}) content!: TemplateRef<unknown>;
   private readonly destroyRef = inject(DestroyRef);
   private readonly dimensions = signal({ width: '336px', height: '100%' });
 

@@ -50,6 +50,7 @@ export class FiltersSidebarComponent {
 
   onResetFilters() {
     this.filtersService.onResetFilters();
+    this.filtersService.onApplyFilters();
     this.sidebarService.setState({ open: false });
   }
 }

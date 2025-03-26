@@ -1,5 +1,11 @@
 
 
-  @for (pokemon of pokemonList(); track pokemon.id) {
+@if (pokemonFacade.filteredPokemonList().length) {
+  @for (pokemon of pokemonFacade.filteredPokemonList(); track pokemon.id) {
     <pokemon-item [pokemon]="pokemon" />
   }
+} @else {
+  @for (i of pokemonFacade.shadowPokemonList(); track i) {
+    <pokemon-item />
+  }
+}

@@ -1,4 +1,5 @@
 @import 'variables';
+@import 'media-mixins';
 
 .input-field {
   margin-bottom: 2rem;
@@ -12,9 +13,18 @@
   margin-bottom: 4rem;
 
   .filter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.25rem;
     padding: 0.5rem 1rem;
-    border: 2px solid $dark-gray;
+    border: 2px solid rgba($dark-gray, 0.16);
     cursor: pointer;
-    border-radius: 8px;
+    border-radius: 20px;
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
   }
 }

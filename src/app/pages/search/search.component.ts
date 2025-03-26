@@ -29,10 +29,8 @@ import { SidebarTriggerDirective } from '../../directives/sidebar/sidebar-trigge
 })
 
 export class SearchComponent  {
-  private readonly pokemonFacade = inject(PokemonFacade);
   private readonly filtersService = inject(FiltersService);
 
-  pokemonList = this.pokemonFacade.filteredPokemonList;
   orderFilters = this.filtersService.orderFilters;
 
   constructor() { }
@@ -42,7 +40,6 @@ export class SearchComponent  {
   }
 
   onTextChange(text: string) {
-    console.log(text, 'TEXT')
     this.filtersService.setSearchText(text);
   }
 

@@ -1,0 +1,35 @@
+// _media-mixins.scss
+
+// Mixin for media queries
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == small {
+    @media (max-width: 600px) {
+      @content;
+    }
+  } @else if $breakpoint == medium {
+    @media (max-width: 900px) {
+      @content;
+    }
+  } @else if $breakpoint == large {
+    @media (max-width: 1200px) {
+      @content;
+    }
+  } @else if $breakpoint == xlarge {
+    @media (max-width: 1600px) {
+      @content;
+    }
+  } @else {
+    @error "Unknown breakpoint: #{$breakpoint}. Valid options are small, medium, large, xlarge.";
+  }
+}
+
+// Example usage:
+// .example {
+//   font-size: 16px;
+//   @include respond-to(small) {
+//     font-size: 14px;
+//   }
+//   @include respond-to(medium) {
+//     font-size: 12px;
+//   }
+// }
