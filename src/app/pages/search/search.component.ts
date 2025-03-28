@@ -22,6 +22,7 @@ import { SidebarTriggerDirective } from '../../directives/sidebar/sidebar-trigge
 @Component({
   selector: 'app-search',
   imports: [CommonModule, SvgIconComponent, InputFieldComponent, ButtonComponent, PokemonListComponent, DropdownComponent, SidebarComponent, PortalModule, SidebarTriggerDirective, FiltersSidebarComponent],
+  standalone: true,
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

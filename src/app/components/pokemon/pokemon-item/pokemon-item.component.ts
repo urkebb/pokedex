@@ -5,10 +5,12 @@ import { SvgIconComponent } from '../../svg-icon/svg-icon.component';
 import { PokemonService } from '../pokemon.service';
 import { PokemonFacade } from '../../../facades/pokemon.facade';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { Dialog, DialogModule, DialogRef }  from '@angular/cdk/dialog';
+import { PokemonDetailsComponent } from '../pokemon-details/pokemon-details.component';
 
 @Component({
   selector: 'pokemon-item',
-  imports: [CommonModule, SvgIconComponent],
+  imports: [CommonModule, SvgIconComponent, DialogModule],
   templateUrl: './pokemon-item.component.html',
   styleUrl: './pokemon-item.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,8 +23,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
     ])
   ],
   host: {
-    '[attr.type]': 'pokemon()?.types[0]?.type?.name',
-    '[@enterAnimation]': ''
+    '[attr.type]': 'pokemon()?.types[0]?.type?.name'
   }
 })
 export class PokemonItemComponent {
@@ -30,7 +31,11 @@ export class PokemonItemComponent {
   pokemonService = inject(PokemonService);
   pokemonFacade = inject(PokemonFacade);
 
-  constructor() { }
+  dialog = inject(Dialog);
+
+  constructor() {
+
+   }
 
   get sprite(): string {
     return this.pokemon()?.sprites?.other?.dream_world?.front_default ?? '';
@@ -47,6 +52,16 @@ export class PokemonItemComponent {
 
   getTypeName(name: string): string {
     return name.charAt(0).toUpperCase() + name.slice(1);
+  }
+
+  handlePokemonClick() {
+    const ref = this.dialog.open<string, Pokemon>(PokemonDetailsComponent, {
+      minWidth: '400px',
+      data: this.pokemon(),
+      autoFocus: false,
+      hasBackdrop: true
+    });
+
   }
 
 }

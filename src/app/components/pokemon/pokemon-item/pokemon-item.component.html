@@ -1,5 +1,8 @@
-@if (!pokemonFacade.isLoading()) {
-  <div @enterAnimation class="pokemon-card">
+@if (!pokemonService.isLoading()) {
+  <div @enterAnimation
+    class="pokemon-card"
+    (click)="handlePokemonClick()"
+    >
     <div class="sprite">
       <img [src]="sprite" alt="" />
     </div>

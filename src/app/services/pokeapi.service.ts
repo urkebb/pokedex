@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { delay, finalize, forkJoin, Observable, switchMap } from 'rxjs';
+import { delay, finalize, forkJoin, Observable, switchMap, tap } from 'rxjs';
 import { Pokemon, PokemonList } from '../models/pokemon';
 import { HttpClient } from '@angular/common/http';
 import { PokemonService } from '../components/pokemon/pokemon.service';
@@ -10,6 +10,7 @@ import { PokemonService } from '../components/pokemon/pokemon.service';
 export class PokeapiService {
 
   private readonly http = inject(HttpClient)
+  pokemonService = inject(PokemonService);
 
   constructor() { }
 
@@ -23,8 +24,8 @@ export class PokeapiService {
       switchMap((pokemonList: PokemonList) => {
         const detailRequests = pokemonList.results.map(pokemon => this.http.get<Pokemon>(pokemon.url));
 
-        return forkJoin(detailRequests);
-      })
+        return forkJoin(detailRequests)
+      }),
     )
   }
 

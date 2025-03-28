@@ -1,11 +1,12 @@
 
+<ng-container *ngIf="pokemonService.isLoading()">
+  <pokemon-item *ngFor="let i of pokemonFacade.shadowPokemonList()">
+  </pokemon-item>
+</ng-container>
 
-@if (pokemonFacade.filteredPokemonList().length) {
-  @for (pokemon of pokemonFacade.filteredPokemonList(); track pokemon.id) {
-    <pokemon-item [pokemon]="pokemon" />
-  }
-} @else {
-  @for (i of pokemonFacade.shadowPokemonList(); track i) {
-    <pokemon-item />
-  }
-}
+<ng-container *ngIf="!pokemonService.isLoading()">
+  <pokemon-item
+    *ngFor="let pokemon of pokemonFacade.filteredPokemonList()"
+    [pokemon]="pokemon">
+  </pokemon-item>
+</ng-container>

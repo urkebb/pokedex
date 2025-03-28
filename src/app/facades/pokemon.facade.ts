@@ -1,6 +1,6 @@
 import { computed, DestroyRef, inject, Injectable, signal, Signal } from '@angular/core';
 import { PokeapiService } from '../services/pokeapi.service';
-import { BehaviorSubject, catchError, delay, finalize, tap } from 'rxjs';
+import { BehaviorSubject, catchError, delay, delayWhen, finalize, map, of, switchMap, tap } from 'rxjs';
 import { Pokemon } from '../models/pokemon';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { PokemonService } from '../components/pokemon/pokemon.service';
@@ -13,9 +13,9 @@ export class PokemonFacade {
   private readonly pokeapiService = inject(PokeapiService);
   private readonly pokemonService = inject(PokemonService);
 
-  private readonly _isLoading = signal(false);
+  // public readonly isLoading = signal(true);
 
-  public readonly isLoading = computed(() => this._isLoading());
+  // public readonly isLoading = computed(() => this._isLoading());
 
   readonly pokemonList = signal<Pokemon[]>([]);
   readonly shadowPokemonList = signal<number[]>(Array.from({ length: 20 }, (_, i) => i));
@@ -23,16 +23,14 @@ export class PokemonFacade {
   readonly filteredPokemonList = signal<Pokemon[]>([]);
 
   constructor() {
-    this.setLoading(true);
       this.pokeapiService.getPokemonList().pipe(
         tap(pokemonList => {
           this.pokemonList.set(pokemonList);
           this.filteredPokemonList.set(pokemonList);
+          this.pokemonService.setLoading(false);
         }),
-        delay(4000),
-        finalize(() => this.setLoading(false)),
-        takeUntilDestroyed(this.destroyRef)
-      ).subscribe()
+        takeUntilDestroyed(this.destroyRef),
+      ).subscribe();
    }
 
    setFilteredPokemonList(pokemonList: Pokemon[]) {
@@ -44,7 +42,7 @@ export class PokemonFacade {
    }
 
    setLoading(isLoading: boolean) {
-      this._isLoading.set(isLoading);
+      // this.isLoading.set(isLoading);
    }
 
 }

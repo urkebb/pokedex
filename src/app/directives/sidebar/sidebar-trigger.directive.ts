@@ -5,7 +5,6 @@ import {
 	Directive,
 	HostListener,
 	inject,
-	InjectionToken,
 	Injector,
 	Input,
 	signal,

@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { CheckboxComponent } from '../../checkbox/checkbox.component';
-import { TypeFilter } from './type-filter.model';
 
 @Component({
   selector: 'type-filter',
