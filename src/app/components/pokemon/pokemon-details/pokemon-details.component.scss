@@ -1,4 +1,63 @@
-div {
-  background-color: white;
-  padding: 2rem;
+@import 'variables';
+@import 'mixins';
+
+.details-container {
+  border-radius: 1rem;
+  @include pokemon-card-color();
+
+  .details-header {
+    padding: calc(52px + 20px) 125px;
+    text-align: center;
+    border-radius: 1rem 1rem 0 0;
+    display: flex;
+    gap: 2rem;
+
+    .pokemon-card-left {
+      img {
+        width: 181px;
+        height: 181px;
+      }
+    }
+    .pokemon-card-right {
+      color: white;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      justify-content: center;
+
+      .pokemon-number {
+        text-align: left;
+        font-size: 18px;
+        color: rgba(white, 0.8)
+      }
+
+      .pokemon-name {
+        font-size: 48px;
+        letter-spacing: 2.5px;
+      }
+
+
+    }
+
+  }
+
+  .details-footer {
+    position: relative;
+    top: -20px;
+  }
+}
+
+.about-tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  .row {
+    display: flex;
+    .key {
+      flex: 0 1 100px;
+    }
+    .value {
+      flex: 1;
+    }
+  }
 }

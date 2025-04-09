@@ -1,8 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, computed, inject, input, Input, OnInit, signal } from '@angular/core';
-import { Pokemon } from '../../../models/pokemon';
+import { Pokemon, PokemonSummary } from '../../../models/pokemon';
 import { CommonModule } from '@angular/common';
 import { PokemonItemComponent } from '../pokemon-item/pokemon-item.component';
-import { PokemonService } from '../pokemon.service';
 import { PokemonFacade } from '../../../facades/pokemon.facade';
 
 @Component({
@@ -15,7 +14,6 @@ import { PokemonFacade } from '../../../facades/pokemon.facade';
 })
 export class PokemonListComponent implements OnInit {
 
-  pokemonService = inject(PokemonService);
   pokemonFacade = inject(PokemonFacade);
 
   pokemonList = computed(() => this.pokemonFacade.filteredPokemonList());
@@ -26,7 +24,7 @@ export class PokemonListComponent implements OnInit {
 
   }
 
-  trackByFn(_: number, pokemon: Pokemon): number {
+  trackByFn(_: number, pokemon: PokemonSummary): number {
     return pokemon.id;
   }
 }

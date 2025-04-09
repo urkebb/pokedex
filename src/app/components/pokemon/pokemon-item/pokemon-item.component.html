@@ -1,4 +1,4 @@
-@if (!pokemonService.isLoading()) {
+@if (!pokemonFacade.isLoading()) {
   <div @enterAnimation
     class="pokemon-card"
     (click)="handlePokemonClick()"
@@ -15,10 +15,7 @@
       </div>
       <div class="types">
         @for (type of pokemon()?.types; track type) {
-        <div [attr.type]="type.type.name" class="type">
-          <svg-icon [name]="type.type.name + '-tag'"></svg-icon>
-          <p>{{getTypeName(type.type.name)}}</p>
-        </div>
+        <pokemon-type [type]="type"></pokemon-type>
         }
       </div>
     </div>

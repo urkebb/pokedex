@@ -2,7 +2,6 @@ import { inject, Injectable } from '@angular/core';
 import { delay, finalize, forkJoin, Observable, switchMap, tap } from 'rxjs';
 import { Pokemon, PokemonList } from '../models/pokemon';
 import { HttpClient } from '@angular/common/http';
-import { PokemonService } from '../components/pokemon/pokemon.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +9,6 @@ import { PokemonService } from '../components/pokemon/pokemon.service';
 export class PokeapiService {
 
   private readonly http = inject(HttpClient)
-  pokemonService = inject(PokemonService);
 
   constructor() { }
 

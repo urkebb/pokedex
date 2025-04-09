@@ -16,6 +16,14 @@ export interface Pokemon {
   height: number;
   types: PokemonType[];
   name: string;
+  abilities: {
+    ability: {
+      name: string;
+      url: string;
+    }
+    is_hidden: boolean;
+    slot: number;
+  }[];
   sprites: {
     front_default: string;
     back_default: string;
@@ -28,12 +36,33 @@ export interface Pokemon {
   }
 }
 
+export interface PokemonAbility {
+  name: string;
+  url: string;
+}
+
+export interface PokemonSummary {
+  id: number;
+  name: string;
+  sprite: string;
+  mainType: PokemonTypeSummary;
+  types: PokemonTypeSummary[];
+  weight: number;
+  height: number;
+  abilities: PokemonAbility[];
+}
+
 export interface PokemonType {
   slot: number;
   type: {
     name: string;
     url: string;
   }
+}
+
+export interface PokemonTypeSummary {
+  name: string;
+  url: string;
 }
 
 export type PokemonHeight = 'small' | 'medium' | 'large';

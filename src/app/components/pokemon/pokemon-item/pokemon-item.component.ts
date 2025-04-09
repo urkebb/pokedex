@@ -1,16 +1,18 @@
 import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
-import { Pokemon } from '../../../models/pokemon';
+import { PokemonSummary } from '../../../models/pokemon';
 import { CommonModule } from '@angular/common';
 import { SvgIconComponent } from '../../svg-icon/svg-icon.component';
-import { PokemonService } from '../pokemon.service';
 import { PokemonFacade } from '../../../facades/pokemon.facade';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Dialog, DialogModule, DialogRef }  from '@angular/cdk/dialog';
 import { PokemonDetailsComponent } from '../pokemon-details/pokemon-details.component';
+import { getPokemonNumber } from '../pokemon.functions';
+import { PokemonTypeComponent } from '../pokemon-type/pokemon-type.component';
+import { capitalizeFirstLetter } from '../../../shared/util-functions';
 
 @Component({
   selector: 'pokemon-item',
-  imports: [CommonModule, SvgIconComponent, DialogModule],
+  imports: [CommonModule, SvgIconComponent, DialogModule, PokemonTypeComponent],
   templateUrl: './pokemon-item.component.html',
   styleUrl: './pokemon-item.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,12 +25,11 @@ import { PokemonDetailsComponent } from '../pokemon-details/pokemon-details.comp
     ])
   ],
   host: {
-    '[attr.type]': 'pokemon()?.types[0]?.type?.name'
+    '[attr.type]': 'pokemon()?.mainType?.name'
   }
 })
 export class PokemonItemComponent {
-  pokemon = input<Pokemon>();
-  pokemonService = inject(PokemonService);
+  pokemon = input<PokemonSummary>();
   pokemonFacade = inject(PokemonFacade);
 
   dialog = inject(Dialog);
@@ -38,16 +39,16 @@ export class PokemonItemComponent {
    }
 
   get sprite(): string {
-    return this.pokemon()?.sprites?.other?.dream_world?.front_default ?? '';
+    return this.pokemon()?.sprite ?? '';
   }
 
   get number(): string {
-    return this.pokemon()?.id.toString().padStart(3, '0') ?? '';
+    return getPokemonNumber(this.pokemon()?.id ?? 0);
   }
 
   get name(): string {
     const name = this.pokemon()?.name ?? '';
-    return name.charAt(0).toUpperCase() + name.slice(1);
+    return capitalizeFirstLetter(name);
   }
 
   getTypeName(name: string): string {
@@ -55,12 +56,16 @@ export class PokemonItemComponent {
   }
 
   handlePokemonClick() {
-    const ref = this.dialog.open<string, Pokemon>(PokemonDetailsComponent, {
-      minWidth: '400px',
+    const dialogRef = this.dialog.open<string, PokemonSummary>(PokemonDetailsComponent, {
+      minWidth: '300px',
+      width: '725px',
       data: this.pokemon(),
-      autoFocus: false,
-      hasBackdrop: true
+      autoFocus: true,
+      hasBackdrop: true,
+      restoreFocus: false
     });
+
+    dialogRef.closed.subscribe(result => console.log(result, 'closed'))
 
   }
 

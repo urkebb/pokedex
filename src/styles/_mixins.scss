@@ -1,0 +1,36 @@
+
+@mixin pokemon-card-color() {
+  .pokemon-card {
+    background-color: $normal-background;
+  }
+  &[type='grass'] {
+    .pokemon-card {
+      background-color: $grass-background;
+    }
+  }
+  &[type='fire'] {
+    .pokemon-card {
+      background-color: $fire-background;
+    }
+  }
+  &[type='flying'] {
+    .pokemon-card {
+      background-color: $flying-background;
+    }
+  }
+  &[type='water'] {
+    .pokemon-card {
+      background-color: $water-background;
+    }
+  }
+  &[type='poison'] {
+    .pokemon-card {
+      background-color: $water-background;
+    }
+  }
+  &[type='electric'] {
+    .pokemon-card {
+      background-color: $electric-background;
+    }
+  }
+}

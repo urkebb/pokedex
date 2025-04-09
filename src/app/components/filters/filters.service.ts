@@ -4,11 +4,9 @@ import { POKEMON_HEIGHTS, POKEMON_TYPES, POKEMON_WEIGHTS } from '../pokemon/poke
 import { firstLetterToUppercase } from '../../functions/string.functions';
 import { HeightFilterState } from './height-filter/heigh-filter.model';
 import { WeightFilterState } from './weight-filter/weight-filter.model';
-import { Pokemon, PokemonHeight, PokemonWeight } from '../../models/pokemon';
+import { Pokemon, PokemonHeight, PokemonSummary, PokemonWeight } from '../../models/pokemon';
 import { PokemonFacade } from '../../facades/pokemon.facade';
 import { getPokemonHeightLimit, getPokemonTypes, getPokemonWeightLimit } from '../pokemon/pokemon.functions';
-import { SidebarService } from '../../services/sidebar.service';
-import { Option } from '../../models/dropdown';
 import { OrderFilter, OrderFilterValue } from './filter.model';
 
 @Injectable({
@@ -92,7 +90,7 @@ export class FiltersService {
   }
 
   onApplyFilters() {
-    let filteredList: Pokemon[] = this.getFilteredList(this.pokemonList());
+    let filteredList: PokemonSummary[] = this.getFilteredList(this.pokemonList());
 
     filteredList = this.getOrderedList(filteredList);
 
@@ -107,12 +105,12 @@ export class FiltersService {
     this._searchText.set(text);
   }
 
-  private getFilteredList(list: Pokemon[]): Pokemon[] {
+  private getFilteredList(list: PokemonSummary[]): PokemonSummary[] {
     return list.filter(pokemon => this.getFilterConditionByPokemon(pokemon));
   }
 
-  private getOrderedList(list: Pokemon[]): Pokemon[] {
-    const mappingObj: Record<OrderFilterValue, () => Pokemon[]> = {
+  private getOrderedList(list: PokemonSummary[]): PokemonSummary[] {
+    const mappingObj: Record<OrderFilterValue, () => PokemonSummary[]> = {
       'lowestNumber': () => [...list].sort((a, b) => a.id - b.id),
       'highestNumber': () => [...list].sort((a, b) => b.id - a.id),
       'aToZ': () => [...list].sort((a, b) => a.name.localeCompare(b.name)),
@@ -122,7 +120,7 @@ export class FiltersService {
     return mappingObj[this.selectedOrderFilter().value]();
   }
 
-  private getFilterConditionByPokemon(pokemon: Pokemon): boolean {
+  private getFilterConditionByPokemon(pokemon: PokemonSummary): boolean {
       const heightLimit = getPokemonHeightLimit(this.activeHeighFilter as PokemonHeight);
 
       const weightLimit = getPokemonWeightLimit(this.activeWeightFilter as PokemonWeight);

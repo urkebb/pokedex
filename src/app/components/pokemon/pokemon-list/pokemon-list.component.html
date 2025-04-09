@@ -1,12 +1,12 @@
 
-<ng-container *ngIf="pokemonService.isLoading()">
+<ng-container *ngIf="pokemonFacade.isLoading(); else loadedTemplate">
   <pokemon-item *ngFor="let i of pokemonFacade.shadowPokemonList()">
   </pokemon-item>
 </ng-container>
 
-<ng-container *ngIf="!pokemonService.isLoading()">
+<ng-template #loadedTemplate>
   <pokemon-item
     *ngFor="let pokemon of pokemonFacade.filteredPokemonList()"
     [pokemon]="pokemon">
   </pokemon-item>
-</ng-container>
+</ng-template>

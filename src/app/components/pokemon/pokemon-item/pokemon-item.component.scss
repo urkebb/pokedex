@@ -1,4 +1,5 @@
 @import 'variables';
+@import 'mixins';
 
 $padding: 1rem;
 
@@ -24,36 +25,7 @@ $padding: 1rem;
 }
 
 :host {
-  &[type='grass'] {
-    .pokemon-card {
-      background-color: $grass-background;
-    }
-  }
-  &[type='fire'] {
-    .pokemon-card {
-      background-color: $fire-background;
-    }
-  }
-  &[type='flying'] {
-    .pokemon-card {
-      background-color: $flying-background;
-    }
-  }
-  &[type='water'] {
-    .pokemon-card {
-      background-color: $water-background;
-    }
-  }
-  &[type='poison'] {
-    .pokemon-card {
-      background-color: $water-background;
-    }
-  }
-  &[type='electric'] {
-    .pokemon-card {
-      background-color: $electric-background;
-    }
-  }
+  @include pokemon-card-color();
   width: 100%;
   height: 100%;
   min-height: 150px;
@@ -112,7 +84,6 @@ $padding: 1rem;
       height: 16px;
     }
     .type {
-      background-color: yellow;
       border-radius: 12px;
       padding: 0.25rem 0.5rem;
       font-size: 14px;

@@ -1,3 +1,49 @@
-<div class="details-container">
-  <h1>{{data.name}}</h1>
+<div [attr.type]="pokemon.mainType.name" class="details-container">
+	<div class="details-header pokemon-card">
+		<div class="pokemon-card-left">
+        <img [src]="pokemon.sprite" alt="">
+    </div>
+    <div class="pokemon-card-right">
+      <p class="pokemon-number">#{{pokemonNumber}}</p>
+      <h2 class="pokemon-name">{{name}}</h2>
+      <pokemon-type [type]="pokemon.mainType"></pokemon-type>
+    </div>
+	</div>
+  <div class="details-footer">
+    <tabs>
+      <ng-template tabItem [state]="{
+        label: 'About',
+        content: aboutTemplate
+      }"></ng-template>
+
+      <ng-template tabItem [state]="{
+        label: 'Base stats',
+        content: template2
+      }"></ng-template>
+    </tabs>
+  </div>
 </div>
+
+<ng-template #aboutTemplate>
+	<div class="about-tab-content">
+		<div class="row">
+			<p class="key">Species</p>
+			<p class="value">{{typeNames.join(', ')}}</p>
+		</div>
+		<div class="row">
+			<p class="key">Height</p>
+			<p class="value">{{pokemon.height}}cm</p>
+		</div>
+		<div class="row">
+			<p class="key">Weight</p>
+			<p class="value">{{pokemon.weight}}kg</p>
+		</div>
+		<div class="row">
+			<p class="key">Abilities</p>
+			<p class="value">{{abilities.join(', ')}}</p>
+		</div>
+	</div>
+</ng-template>
+<ng-template #template2>
+  brake
+</ng-template>

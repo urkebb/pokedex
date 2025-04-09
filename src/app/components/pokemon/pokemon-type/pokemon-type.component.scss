@@ -1,0 +1,39 @@
+@import 'variables';
+@import 'mixins';
+
+:host {
+  display: block;
+   width: fit-content;
+}
+
+.type {
+  border-radius: 12px;
+  padding: 0.25rem 0.5rem;
+  font-size: 14px;
+  color: $dark-gray;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  &[type='grass'] {
+    background-color: $grass-tag;
+  }
+  &[type='fire'] {
+    background-color: $fire-tag;
+  }
+  &[type='bug'] {
+    background-color: $bug-tag;
+  }
+  &[type='poison'] {
+    background-color: $poison-tag;
+  }
+  &[type='flying'] {
+    background-image: $flying-tag;
+  }
+  &[type='normal'] {
+    background: $normal-tag;
+  }
+  &[type='water'] {
+    background: $water-tag;
+  }
+}

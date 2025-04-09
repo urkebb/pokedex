@@ -1,7 +1,8 @@
-import { Pokemon, PokemonHeight, PokemonWeight } from "../../models/pokemon";
+import { Pokemon, PokemonHeight, PokemonSummary, PokemonWeight } from "../../models/pokemon";
+import { capitalizeFirstLetter } from "../../shared/util-functions";
 
-export const getPokemonTypes = (pokemon: Pokemon) => {
-  return pokemon.types.map(type => type.type.name);
+export const getPokemonTypes = (pokemon: PokemonSummary) => {
+  return pokemon.types.map(type => type.name);
 }
 
 
@@ -34,3 +35,5 @@ export const getPokemonWeightLimit = (weight: PokemonWeight): {
 
   return { min: 200, max: Number.MAX_VALUE };
 }
+
+export const getPokemonNumber = (pokemonId: number): string => pokemonId.toString().padStart(3, '0') ?? '';
