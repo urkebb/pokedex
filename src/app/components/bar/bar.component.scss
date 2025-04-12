@@ -1,0 +1,25 @@
+@import 'variables';
+@import 'mixins';
+
+$border-radius: 8px;
+$height: 6px;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.bar {
+  position: relative;
+  width: 100%;
+  height: $height;
+  background-color: rgba($dark-gray, 0.24);
+  border-radius: $border-radius;
+
+  .fill {
+    height: inherit;
+    border-radius: inherit;
+    transition: all 0.5s ease-in-out;
+    @include pokemon-type-color();
+  }
+}

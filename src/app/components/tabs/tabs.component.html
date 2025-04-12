@@ -4,12 +4,12 @@
       @for(item of tabItems(); track item) {
         <li [attr.active]="item.isActive ? true : null"
         (click)="onTabClick(item)">
-          {{ item?.state?.label }}
+          {{ item?.label }}
         </li>
       }
     </ul>
   </div>
   <div class="tab-content">
-    <ng-container [ngTemplateOutlet]="activeTabItem?.state?.content ?? null"></ng-container>
+    <ng-container [ngTemplateOutlet]="activeTabItem?.content ?? null"></ng-container>
   </div>
 </div>

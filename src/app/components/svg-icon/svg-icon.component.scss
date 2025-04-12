@@ -1,7 +1,9 @@
 @import "variables";
 
 :host {
+  display: flex;
 	.svg-icon-container {
+    display: flex;
 		::ng-deep {
 			svg {
 				width: var(--width);

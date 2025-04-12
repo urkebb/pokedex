@@ -10,15 +10,17 @@
     </div>
 	</div>
   <div class="details-footer">
-    <tabs>
+    <tabs #tabs>
       <ng-template tabItem [state]="{
         label: 'About',
-        content: aboutTemplate
+        content: aboutTemplate,
+        isActive: true
       }"></ng-template>
 
       <ng-template tabItem [state]="{
         label: 'Base stats',
-        content: template2
+        content: statsTemplate,
+        isActive: false
       }"></ng-template>
     </tabs>
   </div>
@@ -44,6 +46,6 @@
 		</div>
 	</div>
 </ng-template>
-<ng-template #template2>
-  brake
+<ng-template #statsTemplate>
+  <bar [value]="pokemon.stats[0].value" [cssClass]="pokemon.mainType.name"></bar>
 </ng-template>

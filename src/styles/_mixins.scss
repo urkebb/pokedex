@@ -34,3 +34,25 @@
     }
   }
 }
+
+@mixin pokemon-type-color() {
+  background-color: $normal-background;
+  &[type='grass'], &.grass {
+    background-color: $grass-background;
+  }
+  &[type='fire'], &.fire {
+    background-color: $fire-background;
+  }
+  &[type='flying'], &.flying {
+    background-color: $flying-background;
+  }
+  &[type='water'], &.water {
+    background-color: $water-background;
+  }
+  &[type='poison'], &.poison {
+    background-color: $water-background;
+  }
+  &[type='electric'], &.electric {
+    background-color: $electric-background;
+  }
+}

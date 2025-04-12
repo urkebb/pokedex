@@ -33,7 +33,15 @@ export interface Pokemon {
         back_default: string
       };
     }
-  }
+  },
+  stats: {
+    base_stat: number;
+    effort: number;
+    stat: {
+      name: string;
+      url: string;
+    }
+  }[];
 }
 
 export interface PokemonAbility {
@@ -50,6 +58,12 @@ export interface PokemonSummary {
   weight: number;
   height: number;
   abilities: PokemonAbility[];
+  stats: PokemonStat[];
+}
+
+export interface PokemonStat {
+  value: number;
+  name: string;
 }
 
 export interface PokemonType {

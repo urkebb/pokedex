@@ -16,9 +16,7 @@ export interface Tab {
   styleUrl: './tabs.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TabsComponent implements AfterViewInit, AfterContentInit {
-
-  items = input<Tab[]>([]);
+export class TabsComponent implements AfterViewInit {
   tabClick = output<TabItemDirective>();
 
   @ContentChildren(TabItemDirective) tabsList!: QueryList<TabItemDirective>;
@@ -28,23 +26,16 @@ export class TabsComponent implements AfterViewInit, AfterContentInit {
     return this.tabItems().find((item) => item?.isActive);
   }
 
-  ngAfterContentInit(): void {
-    this.tabItems.set(Array.from(this.tabsList));
-    this.tabItems.update(tabs => {
-      tabs[0].isActive = true;
-      return tabs;
-    })
-  }
-
   ngAfterViewInit(): void {
+    this.tabItems.set(Array.from(this.tabsList));
+    console.log(this.tabItems(), 'brake')
   }
 
   onTabClick(item: TabItemDirective) {
     this.tabItems().forEach((item) => {
-      item.isActive = false;
+      item.setIsActive(false);
     });
-    item.isActive = true;
+    item.setIsActive(true);
     this.tabClick.emit(item);
   }
-
 }

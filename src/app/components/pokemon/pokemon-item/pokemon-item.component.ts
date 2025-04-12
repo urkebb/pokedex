@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
-import { PokemonSummary } from '../../../models/pokemon';
+import { Pokemon, PokemonSummary } from '../../../models/pokemon';
 import { CommonModule } from '@angular/common';
 import { SvgIconComponent } from '../../svg-icon/svg-icon.component';
 import { PokemonFacade } from '../../../facades/pokemon.facade';
@@ -66,7 +66,6 @@ export class PokemonItemComponent {
     });
 
     dialogRef.closed.subscribe(result => console.log(result, 'closed'))
-
   }
 
 }
